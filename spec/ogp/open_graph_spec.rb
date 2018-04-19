@@ -15,11 +15,31 @@ describe OGP::OpenGraph do
     end
 
     context 'with missing one of the required attributes' do
-      it 'should raise an error' do
-        content = File.read("#{File.dirname(__FILE__)}/../fixtures/missing_required_attributes.html")
+      context 'with missing attributes allowed' do
+        it 'should not raise an error' do
+          content = File.read("#{File.dirname(__FILE__)}/../fixtures/missing_required_attributes.html")
 
-        expect { OGP::OpenGraph.new(content) }.to raise_error(OGP::MissingAttributeError)
+          expect { OGP::OpenGraph.new(content, allow_missing_attributes:true) }.not_to raise_error(OGP::MissingAttributeError)
+        end
       end
+      
+      context 'with missing attributes explicitely not allowed' do
+        it 'should raise an error' do
+          content = File.read("#{File.dirname(__FILE__)}/../fixtures/missing_required_attributes.html")
+
+          expect { OGP::OpenGraph.new(content, allow_missing_attributes:false) }.to raise_error(OGP::MissingAttributeError)
+        end
+      end
+      
+      context 'with missing attributes at default' do
+        it 'should raise an error' do
+          content = File.read("#{File.dirname(__FILE__)}/../fixtures/missing_required_attributes.html")
+
+          expect { OGP::OpenGraph.new(content) }.to raise_error(OGP::MissingAttributeError)
+        end
+      end
+      
+      
     end
 
     context 'with nil source' do
