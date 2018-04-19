@@ -19,7 +19,7 @@ describe OGP::OpenGraph do
         it 'should not raise an error' do
           content = File.read("#{File.dirname(__FILE__)}/../fixtures/missing_required_attributes.html")
 
-          expect { OGP::OpenGraph.new(content, allow_missing_attributes:true) }.not_to raise_error(OGP::MissingAttributeError)
+          expect { OGP::OpenGraph.new(content, allow_missing_attributes:true) }.not_to raise_error
         end
       end
       
