@@ -15,7 +15,7 @@ module OGP
     attr_accessor :locales
     attr_accessor :videos
 
-    def initialize(source)
+    def initialize(source, allow_missing_attributes: false)
       if source.nil? || source.empty?
         raise ArgumentError, '`source` cannot be nil or empty.'
       end
@@ -28,7 +28,7 @@ module OGP
       self.videos = []
 
       document = Oga.parse_html(source)
-      check_required_attributes(document)
+      check_required_attributes(document) unless allow_missing_attributes
       parse_attributes(document)
     end
 
